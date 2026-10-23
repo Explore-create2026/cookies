@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #FFFAF5;
+  --color-brown-dark: #4A2511;
+  --color-brown-primary: #E91E63;
+  --color-brown-accent: #EC407A;
+  --color-beige-light: #FCE4EC;
+  --color-beige-mid: #F8BBD0;
+  --color-beige-dark: #F48FB1;
+  
+  --font-serif: "Georgia", "Cambria", "Times New Roman", "Times", serif;
+  --font-sans: "system-ui", "-apple-system", "sans-serif";
+}

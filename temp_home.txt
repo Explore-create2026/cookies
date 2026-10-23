@@ -1,0 +1,151 @@
+                      </button>
+                    </div>
+                  </div>
+                </Link>
+              ))
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Chocolates Menu Section */}
+      <section className="py-16 bg-beige-light">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-brown-primary uppercase tracking-wider mb-2">Chocolates Menu</h2>
+            <div className="h-1 w-24 bg-brown-accent mx-auto rounded-full"></div>
+            <p className="mt-4 text-brown-dark opacity-80 max-w-2xl mx-auto">Explore our exquisite collection of handcrafted chocolate delights.</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 max-w-4xl mx-auto bg-cream p-8 md:p-12 rounded-[40px] shadow-sm border border-beige-mid/50">
+            {loading ? (
+              <p className="col-span-full text-center text-brown-dark opacity-60 py-8">Loading menu...</p>
+            ) : chocolates.length > 0 ? (
+              chocolates.map(product => (
+                <div key={product.id} className="flex justify-between items-end border-b border-beige-mid/50 pb-2 group">
+                  <div className="flex-1">
+                    <Link to={`/product/${product.id}`} className="font-bold text-lg text-brown-dark group-hover:text-brown-accent transition-colors">
+                      {product.name.replace(' Chocolate', '')}
+                    </Link>
+                  </div>
+                  <div className="text-brown-primary font-bold pl-4">
+                    {formatCurrency(product.basePrice)}<span className="text-sm font-normal opacity-60">/pc</span>
+                  </div>
+                </div>
+              ))
+            ) : (
+              [
+                { id: 'c1', name: 'Dark Truffle', basePrice: 450 },
+                { id: 'c2', name: 'Hazelnut Praline', basePrice: 500 },
+                { id: 'c3', name: 'Orange Zest', basePrice: 400 },
+                { id: 'c4', name: 'Milk Caramel', basePrice: 450 },
+              ].map(product => (
+                <div key={product.id} className="flex justify-between items-end border-b border-beige-mid/50 pb-2 group">
+                  <div className="flex-1">
+                    <span className="font-bold text-lg text-brown-dark group-hover:text-brown-accent transition-colors cursor-pointer">
+                      {product.name}
+                    </span>
+                  </div>
+                  <div className="text-brown-primary font-bold pl-4">
+                    {formatCurrency(product.basePrice)}<span className="text-sm font-normal opacity-60">/pc</span>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+          <div className="mt-8 text-center">
+             <Link to="/shop?category=Chocolates" className="inline-flex items-center text-brown-accent font-bold hover:opacity-80">
+               View All Chocolates <ArrowRight size={16} className="ml-2" />
+             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Occasions Section */}
+      <section className="py-16 bg-[#FDFBF7]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-brown-dark mb-4">Sweeten Every Celebration</h2>
+            <div className="h-1 w-24 bg-brown-accent mx-auto rounded-full"></div>
+            <p className="mt-4 text-brown-dark opacity-80 max-w-2xl mx-auto">From intimate birthdays to grand weddings, we have the perfect treat for every milestone.</p>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            {[
+              { title: "Birthdays", image: "https://images.unsplash.com/photo-1558301211-0d8c8ddee6ec?w=500&q=80", link: "/shop?category=Birthday Cakes" },
+              { title: "Anniversaries", image: "https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=500&q=80", link: "/shop?category=Wedding Cakes" },
+              { title: "Weddings", image: "https://images.unsplash.com/photo-1519869491916-8ca6f615d6bd?w=500&q=80", link: "/shop?category=Wedding Cakes" },
+              { title: "Gifting", image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=500&q=80", link: "/shop?category=Gift Hampers" }
+            ].map((occasion, idx) => (
+              <Link key={idx} to={occasion.link} className="group relative rounded-[32px] overflow-hidden aspect-[4/5] block">
+                <img src={occasion.image} alt={occasion.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                <div className="absolute inset-0 bg-gradient-to-t from-brown-dark/80 via-brown-dark/20 to-transparent"></div>
+                <div className="absolute bottom-6 left-6 right-6">
+                  <h3 className="text-white font-serif font-bold text-xl md:text-2xl mb-1">{occasion.title}</h3>
+                  <div className="text-cream text-sm font-medium opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all flex items-center">
+                    Explore <ArrowRight size={14} className="ml-1" />
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Cookies Section */}
+      <section className="py-16 bg-cream">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-widest text-brown-accent mb-2 block">Baked Fresh</span>
+              <h2 className="text-3xl font-serif font-bold text-brown-dark">Signature Cookies</h2>
+            </div>
+            <Link to="/shop?category=Cookies" className="text-brown-primary font-semibold hover:opacity-80 flex items-center border border-brown-primary rounded-full px-6 py-2">
+              Shop Cookies <ArrowRight className="ml-2" size={16} />
+            </Link>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {loading ? (
+               <div className="col-span-full text-center text-brown-dark opacity-60 py-8">Loading cookies...</div>
+            ) : cookies.length > 0 ? (
+              cookies.map(product => (
+                <Link key={product.id} to={`/product/${product.id}`} className="group flex flex-col sm:flex-row bg-white rounded-[32px] overflow-hidden shadow-sm border border-beige-mid/30 hover:shadow-md transition-all">
+                  <div className="w-full sm:w-2/5 aspect-square sm:aspect-auto bg-beige-light overflow-hidden">
+                     {product.images?.[0] ? (
+                        <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-brown-dark opacity-40 bg-beige-mid/30"><ShoppingBag size={32} /></div>
+                      )}
+                  </div>
+                  <div className="w-full sm:w-3/5 p-6 flex flex-col justify-center">
+                    <div className="text-xs text-brown-accent font-bold uppercase tracking-wider mb-2">Artisanal</div>
+                    <h3 className="font-serif font-bold text-2xl text-brown-dark mb-3">{product.name}</h3>
+                    <p className="text-sm text-brown-dark opacity-70 mb-6 line-clamp-3">{product.description}</p>
+                    <div className="flex items-center justify-between mt-auto">
+                      <div className="text-xl font-bold text-brown-primary">{formatCurrency(product.basePrice)}</div>
+                      <button 
+                        onClick={(e) => handleAddToCart(e, product)}
+                        className="px-6 py-2 rounded-full bg-brown-primary text-white font-medium hover:bg-brown-dark transition-colors"
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
+                  </div>
+                </Link>
+              ))
+            ) : (
+              [
+                { id: 'ck1', name: 'Classic Choco Chip', description: 'Crispy edges, chewy centers packed with Belgian chocolate chunks for the perfect bite.', basePrice: 200, image: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=500' },
+                { id: 'ck2', name: 'Double Chocolate Fudge', description: 'Intensely rich cocoa cookies for true chocolate lovers. Melt in your mouth goodness.', basePrice: 250, image: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=500' }
+              ].map(product => (
+                <div key={product.id} className="group flex flex-col sm:flex-row bg-white rounded-[32px] overflow-hidden shadow-sm border border-beige-mid/30 hover:shadow-md transition-all cursor-pointer">
+                  <div className="w-full sm:w-2/5 aspect-square sm:aspect-auto bg-beige-light overflow-hidden">
+                    <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  </div>
+                  <div className="w-full sm:w-3/5 p-6 flex flex-col justify-center">
+                    <div className="text-xs text-brown-accent font-bold uppercase tracking-wider mb-2">Artisanal</div>
+                    <h3 className="font-serif font-bold text-2xl text-brown-dark mb-3">{product.name}</h3>
+                    <p className="text-sm text-brown-dark opacity-70 mb-6 line-clamp-3">{product.description}</p>
+                    <div className="flex items-center justify-between mt-auto">
+                      <div className="text-xl font-bold text-brown-primary">{formatCurrency(product.basePrice)}</div>

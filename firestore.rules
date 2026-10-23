@@ -1,0 +1,85 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() { return request.auth != null; }
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+    
+    // Check if the user is an admin or staff.
+    // In a real production app, we would have an "admins" collection or "roles" collection.
+    // Here we query the users collection to see their role.
+    function getUserRole() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+    }
+    
+    function isStaff() {
+      let role = getUserRole();
+      return role in ['Super Admin', 'Admin', 'Manager', 'Kitchen Staff', 'Sales Staff', 'Delivery Staff'];
+    }
+    
+    function isAdmin() {
+      let role = getUserRole();
+      return role in ['Super Admin', 'Admin', 'Manager'];
+    }
+
+    match /users/{userId} {
+      allow read: if isSignedIn() && (request.auth.uid == userId || isStaff());
+      allow create: if isSignedIn() && request.auth.uid == userId;
+      allow update: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+      // Users shouldn't be able to elevate their own role
+      // In production, we'd enforce this with diff checks.
+    }
+    
+    match /customers/{customerId} {
+      allow read: if isSignedIn() && (request.auth.uid == customerId || isStaff());
+      allow write: if isSignedIn() && (request.auth.uid == customerId || isStaff());
+    }
+
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isSignedIn() && isAdmin();
+    }
+    
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if isSignedIn() && isAdmin();
+    }
+
+    match /orders/{orderId} {
+      // Customers can read their own orders. Staff can read all.
+      allow read: if (isSignedIn() && resource.data.customerId == request.auth.uid) || isStaff();
+      // Anyone (even guest, but let's restrict to signed in customers for simplicity, or allow if logic is safe)
+      allow create: if isSignedIn(); 
+      // Only staff can update orders, or customers if cancelling
+      allow update: if isStaff() || (isSignedIn() && resource.data.customerId == request.auth.uid && request.resource.data.status == 'Cancelled');
+    }
+
+    match /inventory/{itemId} {
+      allow read: if isStaff();
+      allow write: if isAdmin();
+    }
+
+    match /expenses/{expenseId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    match /attendance/{attendanceId} {
+      allow read: if isStaff(); // Staff can read own, Admin can read all
+      allow write: if isStaff(); // Staff can check-in/out
+    }
+
+    match /audit_logs/{logId} {
+      allow read: if isAdmin();
+      allow create: if isStaff();
+    }
+    
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

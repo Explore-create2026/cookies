@@ -1,0 +1,8 @@
+{
+  "name": "Granny's Cookies",
+  "description": "Premium Cake & Chocolate Shop Management + Online Ordering System",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

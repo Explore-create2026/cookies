@@ -1,0 +1,83 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Base user or staff/admin",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "role": { "type": "string", "enum": ["Super Admin", "Admin", "Manager", "Kitchen Staff", "Sales Staff", "Delivery Staff", "Customer"] },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["id", "name", "email", "role", "createdAt"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "A cake or chocolate product",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "description": { "type": "string" },
+        "images": { "type": "array" },
+        "basePrice": { "type": "number" },
+        "sku": { "type": "string" },
+        "stockQuantity": { "type": "number" },
+        "isAvailable": { "type": "boolean" }
+      },
+      "required": ["id", "name", "category", "basePrice", "stockQuantity", "isAvailable"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "A customer order",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "customerId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "customerPhone": { "type": "string" },
+        "items": { "type": "array" },
+        "totalAmount": { "type": "number" },
+        "status": { "type": "string" }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profiles"
+    },
+    "/products/{productId}": {
+      "schema": { "$ref": "#/entities/Product" },
+      "description": "Product catalog"
+    },
+    "/orders/{orderId}": {
+      "schema": { "$ref": "#/entities/Order" },
+      "description": "Orders"
+    },
+    "/inventory/{itemId}": {
+      "schema": { "$ref": "#/entities/Product" },
+      "description": "Inventory records"
+    },
+    "/expenses/{expenseId}": {
+      "schema": { "$ref": "#/entities/Order" },
+      "description": "Expenses"
+    },
+    "/attendance/{attendanceId}": {
+      "schema": { "$ref": "#/entities/Order" },
+      "description": "Staff attendance"
+    },
+    "/audit_logs/{logId}": {
+      "schema": { "$ref": "#/entities/Order" },
+      "description": "System audit logs"
+    },
+    "/customers/{customerId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Customer specific data"
+    }
+  }
+}
